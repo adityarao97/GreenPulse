@@ -1,0 +1,392 @@
+[{
+  "_id": {
+    "$oid": "680ae926c83f1c2d7f7ba2bd"
+  },
+  "company_id": "company1",
+  "user_id": "user4",
+  "source": "IOT",
+  "activity_type": "commute",
+  "metadata": "private",
+  "amount": 16.33,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545510
+},
+{
+  "_id": {
+    "$oid": "680ae92bc83f1c2d7f7ba2be"
+  },
+  "company_id": "company2",
+  "user_id": "user6",
+  "source": "smartphone",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 3416.12,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545515
+},
+{
+  "_id": {
+    "$oid": "680ae930c83f1c2d7f7ba2bf"
+  },
+  "company_id": "company1",
+  "user_id": "user4",
+  "source": "smartwatch",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 3026.41,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545519
+},
+{
+  "_id": {
+    "$oid": "680ae934c83f1c2d7f7ba2c0"
+  },
+  "company_id": "company1",
+  "user_id": "user1",
+  "source": "smartwatch",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 4709.01,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545524
+},
+{
+  "_id": {
+    "$oid": "680ae936c83f1c2d7f7ba2c1"
+  },
+  "company_id": "company2",
+  "user_id": "user7",
+  "source": "smartphone",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 1088.46,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545525
+},
+{
+  "_id": {
+    "$oid": "680ae93ac83f1c2d7f7ba2c2"
+  },
+  "company_id": "company1",
+  "user_id": "user3",
+  "source": "manual",
+  "activity_type": "steps",
+  "metadata": "null",
+  "amount": 6829.44,
+  "unit": "steps",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545529
+},
+{
+  "_id": {
+    "$oid": "680ae93dc83f1c2d7f7ba2c3"
+  },
+  "company_id": "company2",
+  "user_id": "user6",
+  "source": "smartphone",
+  "activity_type": "commute",
+  "metadata": "public",
+  "amount": 45.67,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545532
+},
+{
+  "_id": {
+    "$oid": "680ae93fc83f1c2d7f7ba2c4"
+  },
+  "company_id": "company1",
+  "user_id": "user3",
+  "source": "smartphone",
+  "activity_type": "steps",
+  "metadata": "null",
+  "amount": 2206.71,
+  "unit": "steps",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545534
+},
+{
+  "_id": {
+    "$oid": "680ae942c83f1c2d7f7ba2c5"
+  },
+  "company_id": "company2",
+  "user_id": "user6",
+  "source": "smartwatch",
+  "activity_type": "electricity",
+  "metadata": "null",
+  "amount": 9.98,
+  "unit": "kWh",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545537
+},
+{
+  "_id": {
+    "$oid": "680ae945c83f1c2d7f7ba2c6"
+  },
+  "company_id": "company3",
+  "user_id": "user14",
+  "source": "smartphone",
+  "activity_type": "steps",
+  "metadata": "null",
+  "amount": 12778.6,
+  "unit": "steps",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545540
+},
+{
+  "_id": {
+    "$oid": "680ae947c83f1c2d7f7ba2c7"
+  },
+  "company_id": "company2",
+  "user_id": "user8",
+  "source": "manual",
+  "activity_type": "steps",
+  "metadata": "null",
+  "amount": 9504.96,
+  "unit": "steps",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545543
+},
+{
+  "_id": {
+    "$oid": "680ae949c83f1c2d7f7ba2c8"
+  },
+  "company_id": "company3",
+  "user_id": "user13",
+  "source": "smartphone",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 3064.45,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545545
+},
+{
+  "_id": {
+    "$oid": "680ae94cc83f1c2d7f7ba2c9"
+  },
+  "company_id": "company1",
+  "user_id": "user1",
+  "source": "manual",
+  "activity_type": "commute",
+  "metadata": "public",
+  "amount": 34.55,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545548
+},
+{
+  "_id": {
+    "$oid": "680ae950c83f1c2d7f7ba2ca"
+  },
+  "company_id": "company1",
+  "user_id": "user5",
+  "source": "smartwatch",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 1503.09,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545552
+},
+{
+  "_id": {
+    "$oid": "680ae956c83f1c2d7f7ba2cb"
+  },
+  "company_id": "company1",
+  "user_id": "user2",
+  "source": "smartwatch",
+  "activity_type": "electricity",
+  "metadata": "null",
+  "amount": 1.77,
+  "unit": "kWh",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545557
+},
+{
+  "_id": {
+    "$oid": "680ae957c83f1c2d7f7ba2cc"
+  },
+  "company_id": "company1",
+  "user_id": "user2",
+  "source": "IOT",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 4007.26,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545559
+},
+{
+  "_id": {
+    "$oid": "680ae95ac83f1c2d7f7ba2cd"
+  },
+  "company_id": "company2",
+  "user_id": "user10",
+  "source": "IOT",
+  "activity_type": "steps",
+  "metadata": "null",
+  "amount": 7592.09,
+  "unit": "steps",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545562
+},
+{
+  "_id": {
+    "$oid": "680ae95dc83f1c2d7f7ba2ce"
+  },
+  "company_id": "company1",
+  "user_id": "user2",
+  "source": "manual",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 3998.55,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545564
+},
+{
+  "_id": {
+    "$oid": "680ae961c83f1c2d7f7ba2cf"
+  },
+  "company_id": "company1",
+  "user_id": "user4",
+  "source": "manual",
+  "activity_type": "electricity",
+  "metadata": "null",
+  "amount": 3.61,
+  "unit": "kWh",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545568
+},
+{
+  "_id": {
+    "$oid": "680ae963c83f1c2d7f7ba2d0"
+  },
+  "company_id": "company3",
+  "user_id": "user11",
+  "source": "IOT",
+  "activity_type": "electricity",
+  "metadata": "null",
+  "amount": 7.96,
+  "unit": "kWh",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545570
+},
+{
+  "_id": {
+    "$oid": "680ae964c83f1c2d7f7ba2d1"
+  },
+  "company_id": "company2",
+  "user_id": "user8",
+  "source": "IOT",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 2884.64,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545572
+},
+{
+  "_id": {
+    "$oid": "680ae965c83f1c2d7f7ba2d2"
+  },
+  "company_id": "company2",
+  "user_id": "user6",
+  "source": "smartphone",
+  "activity_type": "commute",
+  "metadata": "private",
+  "amount": 22.14,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545573
+},
+{
+  "_id": {
+    "$oid": "680ae968c83f1c2d7f7ba2d3"
+  },
+  "company_id": "company1",
+  "user_id": "user5",
+  "source": "manual",
+  "activity_type": "electricity",
+  "metadata": "null",
+  "amount": 8.59,
+  "unit": "kWh",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545576
+},
+{
+  "_id": {
+    "$oid": "680ae96ec83f1c2d7f7ba2d4"
+  },
+  "company_id": "company3",
+  "user_id": "user13",
+  "source": "manual",
+  "activity_type": "commute",
+  "metadata": "public",
+  "amount": 24.89,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545581
+},
+{
+  "_id": {
+    "$oid": "680ae971c83f1c2d7f7ba2d5"
+  },
+  "company_id": "company3",
+  "user_id": "user12",
+  "source": "manual",
+  "activity_type": "steps",
+  "metadata": "null",
+  "amount": 13414.42,
+  "unit": "steps",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545585
+},
+{
+  "_id": {
+    "$oid": "680ae975c83f1c2d7f7ba2d6"
+  },
+  "company_id": "company2",
+  "user_id": "user10",
+  "source": "smartphone",
+  "activity_type": "flight",
+  "metadata": "null",
+  "amount": 581.6,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545588
+},
+{
+  "_id": {
+    "$oid": "680ae979c83f1c2d7f7ba2d7"
+  },
+  "company_id": "company3",
+  "user_id": "user13",
+  "source": "IOT",
+  "activity_type": "commute",
+  "metadata": "private",
+  "amount": 6.91,
+  "unit": "km",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545593
+},
+{
+  "_id": {
+    "$oid": "680ae97bc83f1c2d7f7ba2d8"
+  },
+  "company_id": "company1",
+  "user_id": "user2",
+  "source": "smartphone",
+  "activity_type": "steps",
+  "metadata": "null",
+  "amount": 8479.7,
+  "unit": "steps",
+  "sender_address": "agent1qdpperskmqx4y0q32skxenqn5z6v06l85eksnn99xpymdrsf30sywqrqw4d",
+  "timestamp": 1745545594
+}]
