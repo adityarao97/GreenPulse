@@ -13,11 +13,28 @@ company_users = {
 }
 
 sources = ["smartphone", "smartwatch", "manual", "IOT"]
+
 activity_types = {
-    "commute": {"unit": "km", "range": (1, 50)},
-    "electricity": {"unit": "kWh", "range": (0.1, 10)},
-    "steps": {"unit": "steps", "range": (1000, 15000)},
-    "flight": {"unit": "km", "range": (500, 5000)}
+    "transportation": {
+        "metadata": ["public", "private", "walking"],
+        "unit": "km",
+        "range": (1, 50)
+    },
+    "energy": {
+        "metadata": ["homeElectricity", "solar"],
+        "unit": "kWh",
+        "range": (0.1, 10)
+    },
+    "food": {
+        "metadata": ["vegan", "vegetarian", "meat"],
+        "unit": "kg",
+        "range": (0.1, 5)
+    },
+    "shopping": {
+        "metadata": ["electronics", "clothing", "plastic", "glass"],
+        "unit": "kg",
+        "range": (0.1, 20)
+    }
 }
 
 TOTAL_RECORDS = 100  # ✅ Control how many records to generate
@@ -27,12 +44,10 @@ def generate_random_activity():
     user_id = random.choice(company_users[company_id])
     source = random.choice(sources)
     activity_type = random.choice(list(activity_types.keys()))
+    metadata = random.choice(activity_types[activity_type]["metadata"])
     amount = round(random.uniform(*activity_types[activity_type]["range"]), 2)
     unit = activity_types[activity_type]["unit"]
     timestamp = int(time.time())
-
-    # ✅ Metadata logic:
-    metadata = random.choice(["private", "public"]) if activity_type == "commute" else "null"
 
     return {
         "company_id": company_id,

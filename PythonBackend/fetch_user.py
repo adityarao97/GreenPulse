@@ -24,6 +24,7 @@ class ActivityRecord(BaseModel):
     metadata: str
     amount: float
     unit: str
+    emission: float
     sender_address: str
     timestamp: int
 
