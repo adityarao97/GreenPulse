@@ -1,6 +1,7 @@
 import requests
 import random
 import time
+from datetime import datetime, timedelta
 
 # API endpoint
 API_URL = "http://127.0.0.1:8001/send-activity"
@@ -34,10 +35,21 @@ activity_types = {
         "metadata": ["electronics", "clothing", "plastic", "glass"],
         "unit": "kg",
         "range": (0.1, 20)
+    },
+    "other": {  # ✅ New activity type added
+        "metadata": ["misc", "unknown", "uncategorized"],
+        "unit": "units",
+        "range": (1, 100)
     }
 }
 
-TOTAL_RECORDS = 100  # ✅ Control how many records to generate
+TOTAL_RECORDS = 100  # Control how many records to generate
+
+def random_timestamp_last_30_days():
+    now = datetime.utcnow()
+    past_date = now - timedelta(days=30)
+    random_time = random.uniform(past_date.timestamp(), now.timestamp())
+    return int(random_time)
 
 def generate_random_activity():
     company_id = random.choice(list(company_users.keys()))
@@ -47,7 +59,7 @@ def generate_random_activity():
     metadata = random.choice(activity_types[activity_type]["metadata"])
     amount = round(random.uniform(*activity_types[activity_type]["range"]), 2)
     unit = activity_types[activity_type]["unit"]
-    timestamp = int(time.time())
+    timestamp = random_timestamp_last_30_days()  # ✅ Timestamp spread across last month
 
     return {
         "company_id": company_id,
@@ -76,4 +88,4 @@ if __name__ == "__main__":
         send_activity()
         time.sleep(random.uniform(1, 5))  # Random delay between 1 to 5 seconds
 
-    print(f"\n✅ Successfully sent {TOTAL_RECORDS} records!")
+    print(f"\n✅ Successfully sent {TOTAL_RECORDS} records across last 1 month!")
