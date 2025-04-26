@@ -20,7 +20,7 @@ const FootprintSummary: React.FC<FootprintSummaryProps> = ({
 }) => {
   const change = previousValue ? ((currentValue - previousValue) / previousValue) * 100 : 0;
   const isReduction = change <= 0;
-  
+  const progressPercentage = Math.min(((currentValue / target) * 100), 100);
   return (
     <Card className="flex flex-col h-full">
       <h3 className="text-lg font-semibold text-gray-900 mb-2">Carbon Footprint Summary</h3>
@@ -52,19 +52,19 @@ const FootprintSummary: React.FC<FootprintSummaryProps> = ({
       </div>
       
       <div className="mt-auto">
-        <div className="flex justify-between text-sm mb-1">
-          <span className="text-gray-600">Progress to target</span>
-          <span className="font-medium">{((currentValue / target) * 100).toFixed(0)}%</span>
-        </div>
-        <ProgressBar 
-          value={currentValue} 
-          max={target} 
-          color={isReduction ? "success" : "warning"}
-        />
-        <div className="text-xs text-gray-500 mt-2">
-          Target: {target.toLocaleString()} {unit}
-        </div>
-      </div>
+  <div className="flex justify-between text-sm mb-1">
+    <span className="text-gray-600">Progress to target</span>
+    <span className="font-medium">{progressPercentage.toFixed(0)}%</span>
+  </div>
+  <ProgressBar 
+    value={Math.min(currentValue, target)} 
+    max={target} 
+    color={isReduction ? "success" : "warning"} 
+  />
+  <div className="text-xs text-gray-500 mt-2">
+    Target: {target.toLocaleString()} {unit}
+  </div>
+</div>
     </Card>
   );
 };

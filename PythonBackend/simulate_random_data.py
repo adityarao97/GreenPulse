@@ -36,7 +36,7 @@ activity_types = {
         "unit": "kg",
         "range": (0.1, 20)
     },
-    "other": {  # ✅ New activity type added
+    "other": {  
         "metadata": ["misc", "unknown", "uncategorized"],
         "unit": "units",
         "range": (1, 100)
