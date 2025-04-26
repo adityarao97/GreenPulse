@@ -9,6 +9,36 @@ interface JwtPayload {
   role: string;
 }
 
+export interface ActivityData {
+  total_emission: number;
+  activity_type_breakdown: {
+    [key: string]: number;
+  };
+  daily_emission_breakdown: Array<{
+    start: string;
+    end: string;
+    emission: number;
+  }>;
+  weekly_emission_breakdown: Array<{
+    start: string;
+    end: string;
+    emission: number;
+  }>;
+  monthly_emission_breakdown: Array<{
+    start: string;
+    end: string;
+    emission: number;
+  }>;
+  top_3_users?: Array<{
+    user_id: string;
+    total_emission: number;
+  }>;
+  companyLeaderboard?: Array<{
+    company_id: string;
+    total_emission: number;
+  }>;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -17,6 +47,7 @@ export interface User {
   companyId?: string;
   avatar?: string;
   token?: string;
+  activityData?: ActivityData;
 }
 
 interface AuthContextType {
@@ -27,6 +58,7 @@ interface AuthContextType {
   register: (userData: { name: string; email: string; password: string; role: UserRole }) => Promise<boolean>;
   logout: () => void;
   error: string | null;
+  fetchActivityData: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -43,6 +75,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const fetchActivityData = async () => {
+    if (!user) return;
+
+    try {
+      const queryParams = new URLSearchParams({
+        user_type: user.role,
+        identifier: user.name,
+      });
+
+      const response = await fetch(`http://127.0.0.1:8005/fetch-activity/?${queryParams}`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch activity data');
+      }
+
+      const data = await response.json();
+      
+      setUser(prevUser => {
+        if (!prevUser) return null;
+        const updatedUser = {
+          ...prevUser,
+          activityData: data.total,
+        };
+        localStorage.setItem('greenPulseUser', JSON.stringify(updatedUser));
+        return updatedUser;
+      });
+    } catch (err) {
+      console.error('Error fetching activity data:', err);
+    }
+  };
 
   useEffect(() => {
     const storedUser = localStorage.getItem('greenPulseUser');
@@ -97,6 +160,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       setUser(newUser);
       localStorage.setItem('greenPulseUser', JSON.stringify(newUser));
+
+      // Fetch activity data after successful login
+      await fetchActivityData();
+      
       return true;
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred during login');
@@ -154,6 +221,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     register,
     logout,
     error,
+    fetchActivityData,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -24,11 +24,32 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({ data }) => {
   
   const series = data.map(item => typeof item.value === 'number' ? item.value : 0);
   
-  const options = {
+  const chartOptions = {
     labels: data.map(item => item.category),
     colors: data.map(item => categoryColors[item.category as keyof typeof categoryColors] || '#6B7280'),
     chart: {
       type: 'donut' as const,
+      // events: {
+      //   mounted: function(chart: any) {
+      //     const centerText = document.querySelector('.apexcharts-datalabels-group text');
+      //     if (centerText) {
+      //       centerText.textContent = `${totalValue.toFixed(1)} kg`;
+      //     }
+      //   },
+      //   mouseMove: function(event: any, chartContext: any, config: any) {
+      //     const centerText = document.querySelector('.apexcharts-datalabels-group text');
+      //     if (centerText && config.dataPointIndex !== -1) {
+      //       const percentage = ((series[config.dataPointIndex] / totalValue) * 100).toFixed(1);
+      //       centerText.textContent = `${percentage}%`;
+      //     }
+      //   },
+      //   mouseLeave: function() {
+      //     const centerText = document.querySelector('.apexcharts-datalabels-group text');
+      //     if (centerText) {
+      //       centerText.textContent = `${totalValue.toFixed(1)} kg`;
+      //     }
+      //   }
+      // }
     },
     plotOptions: {
       pie: {
@@ -38,14 +59,23 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({ data }) => {
             show: true,
             name: {
               show: true,
+              offsetY: -10,
             },
             value: {
               show: true,
-              formatter: (val: any) => typeof val === 'number' ? `${val.toFixed(1)} kg` : '0.0 kg',
+              offsetY: 10,
+              formatter: function (val: number) {
+                return `${val.toFixed(1)} kg CO₂e`;  // This shows the hovered segment's value
+              },
             },
             total: {
               show: true,
-              formatter: () => `${totalValue.toFixed(1)} kg`,
+              showAlways: false,  // Important: Only show when not hovering
+              label: 'Total',
+              formatter: function (w: any) {
+                const total = w.globals.seriesTotals.reduce((a: number, b: number) => a + b, 0);
+                return `${total.toFixed(1)} kg CO₂e`;
+              },
             },
           },
         },
@@ -79,7 +109,7 @@ const CategoryBreakdown: React.FC<CategoryBreakdownProps> = ({ data }) => {
     <Card className="h-full">
       <h3 className="text-lg font-semibold text-gray-900 mb-4">Category Breakdown</h3>
       <Chart
-        options={options}
+        options={chartOptions}
         series={series}
         type="donut"
         height={300}

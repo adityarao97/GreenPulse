@@ -12,7 +12,7 @@ class SubmitRequest(Model):
 class SubmitResponse(Model):
     response: str
 
-carbon_bot = Agent(name="eco_bot", seed="eco123", port=8010)
+carbon_bot = Agent(name="eco_bot", seed="eco123", port=8010, endpoint=["http://127.0.0.1:8010"])
 
 def set_company_id(data):
     user_id = data["user_id"]
@@ -81,12 +81,13 @@ async def handle_submit(ctx: Context, req: SubmitRequest) -> SubmitResponse:
         emission_key = identify_emission_key(req.message, list(EMISSION_FACTORS.keys()))
         if emission_key in EMISSION_FACTORS:
             emission = EMISSION_FACTORS[emission_key]
-            return SubmitResponse(response=f"The emission factor for {emission_key} is {emission} kg CO₂e per unit.")
-        return SubmitResponse(response=query_emission(req.message))
+            message = generate_emission_message(activity_type=data['activity_type'], amount=data['amount'], unit=data['unit'], emission=data['emission'])
+            return SubmitResponse(response=message)
+        return SubmitResponse(response=f"Error generating response")
 
     elif query_type == "general_emission_advice":
         try:
-            response = requests.get("http://localhost:8005/fetch-activity/", params={"user_type": req.user_type, "identifier": req.user})
+            response = requests.get("http://localhost:8005/fetch-activity/", params={"user_type": req.user_type.lower(), "identifier": req.user})
             data = response.json()
             total_emission = data.get("total").get("total_emission", 0.0)
             print("total_emission: ", total_emission)
