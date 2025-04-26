@@ -1,0 +1,16 @@
+[{
+  "_id": {
+    "$oid": "680d2e1681a5d5a5ac261218"
+  },
+  "user_id": "user1",
+  "current_streak": 1,
+  "last_logged_date": "2025-04-26",
+  "total_points": 300,
+  "total_emission_saved": 19.731,
+  "badges_unlocked": [],
+  "walking_km": 0,
+  "plastic_kg": 0,
+  "glass_kg": 0,
+  "vegan_meals": 0,
+  "solar_logs": 0
+}]
