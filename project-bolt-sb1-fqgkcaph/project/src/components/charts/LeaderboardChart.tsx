@@ -4,8 +4,8 @@ import Chart from 'react-apexcharts';
 interface LeaderboardChartProps {
   data: {
     name: string;
-    footprint: number;
-    reduction: number;
+    footprint: number;  // ✅ Absolute value (total emission)
+    reduction: number;  // This will no longer be used
   }[];
   height?: number;
 }
@@ -14,16 +14,16 @@ export const LeaderboardChart: React.FC<LeaderboardChartProps> = ({
   data,
   height = 350,
 }) => {
-  // Sort data by reduction percentage (highest first)
-  const sortedData = [...data].sort((a, b) => b.reduction - a.reduction);
-  
+  // Sort data by absolute emissions (highest first)
+  const sortedData = [...data].sort((a, b) => b.footprint - a.footprint);
+
   // Take top 5 companies
   const topCompanies = sortedData.slice(0, 5);
-  
+
   const series = [
     {
-      name: 'Reduction %',
-      data: topCompanies.map(item => item.reduction),
+      name: 'Total Emission (kg CO₂e)',
+      data: topCompanies.map(item => item.footprint), // ✅ Use footprint here
     },
   ];
 
@@ -44,7 +44,7 @@ export const LeaderboardChart: React.FC<LeaderboardChartProps> = ({
     colors: ['#3B82F6'], // Secondary blue
     dataLabels: {
       enabled: true,
-      formatter: (val: number) => `${val}%`,
+      formatter: (val: number) => `${val.toLocaleString()} kg CO₂e`, // ✅ Show absolute values
       style: {
         colors: ['#fff'],
         fontWeight: 600,
@@ -80,7 +80,7 @@ export const LeaderboardChart: React.FC<LeaderboardChartProps> = ({
     tooltip: {
       theme: 'light',
       y: {
-        formatter: (value: number) => `${value}% reduction`,
+        formatter: (value: number) => `${value.toLocaleString()} kg CO₂e`, // ✅ Tooltip showing absolute values
       },
     },
   };

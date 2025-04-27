@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Users, TrendingDown, Award, BarChart } from 'lucide-react';
+import { Users, TrendingDown, Award, BarChart, Trophy } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import Card from '../../components/ui/Card';
 import FootprintChart from '../../components/charts/FootprintChart';
@@ -31,7 +31,14 @@ const CompanyDashboard: React.FC = () => {
   const leaderboardData = activityData?.companyLeaderboard?.map(company => ({
     name: company.company_id,
     footprint: company.total_emission,
-    reduction: ((1000 - company.total_emission) / 1000) * 100 // Example calculation
+    reduction: ((1000 - company.total_emission) / 1000) * 100
+  })) || [];
+
+  // Transform top employees data
+  const topEmployeesData = activityData?.top_3_users?.map(user => ({
+    name: user.user_id,
+    footprint: user.total_emission,
+    reduction: ((1000 - user.total_emission) / 1000) * 100
   })) || [];
 
   return (
@@ -134,7 +141,7 @@ const CompanyDashboard: React.FC = () => {
           </div>
         </motion.div>
         
-        {/* Chart card */}
+        {/* Main chart */}
         <motion.div className="lg:col-span-2">
           <Card className="h-full">
             <h3 className="text-lg font-semibold text-gray-900 mb-4">Company Footprint Trend</h3>
@@ -150,6 +157,45 @@ const CompanyDashboard: React.FC = () => {
         <motion.div className="lg:col-span-1">
           <CategoryBreakdown data={categoryData} />
         </motion.div>
+
+        {/* Top Performers */}
+        <motion.div className="lg:col-span-1">
+          <Card className="h-full bg-gradient-to-br from-primary-50 to-accent-50">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">Top Performers</h3>
+              <Trophy className="w-6 h-6 text-yellow-500" />
+            </div>
+            <div className="space-y-4">
+              {topEmployeesData.map((employee, index) => (
+                <div
+                  key={employee.name}
+                  className="flex items-center p-3 bg-white rounded-lg shadow-sm"
+                >
+                  <div className={`
+                    w-8 h-8 rounded-full flex items-center justify-center mr-3
+                    ${index === 0 ? 'bg-yellow-100 text-yellow-600' :
+                      index === 1 ? 'bg-gray-100 text-gray-600' :
+                      'bg-amber-100 text-amber-600'}
+                  `}>
+                    {index + 1}
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium text-gray-900">{employee.name}</span>
+                      <span className="text-sm text-gray-500">{employee.footprint.toFixed(1)} kg</span>
+                    </div>
+                    <div className="mt-1 w-full bg-gray-200 rounded-full h-1.5">
+                      <div
+                        className="bg-primary-500 h-1.5 rounded-full"
+                        style={{ width: `${employee.reduction}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+        </motion.div>
         
         {/* Leaderboard chart */}
         <motion.div className="lg:col-span-2">
@@ -164,7 +210,7 @@ const CompanyDashboard: React.FC = () => {
       {/* Chatbot */}
       {user && (
         <Chatbot 
-          userType="company"
+          userType="Company"
           identifier={user.name}
         />
       )}

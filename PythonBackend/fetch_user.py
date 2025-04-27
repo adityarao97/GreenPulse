@@ -92,6 +92,28 @@ def bucket_emissions(records, period: str, segments: int):
             "emission": round(bucket_sum, 2)
         })
     return breakdown
+    
+def calculate_top_users(records, top_n=3):
+    user_emissions = {}
+    for r in records:
+        user_emissions[r["user_id"]] = user_emissions.get(r["user_id"], 0) + r["emission"]
+
+    sorted_users = sorted(user_emissions.items(), key=lambda x: x[1], reverse=False)[:top_n]
+    return [{"user_id": user, "total_emission": round(emission, 2)} for user, emission in sorted_users]
+
+def generate_company_leaderboard():
+    all_records = list(collection.find({}, {"_id": 0, "company_id": 1, "emission": 1}))
+    company_emissions = {}
+
+    for r in all_records:
+        company = r.get("company_id")
+        if company:
+            company_emissions[company] = company_emissions.get(company, 0) + r["emission"]
+
+    sorted_companies = sorted(company_emissions.items(), key=lambda x: x[1])  # Increasing order
+    return [{"company_id": company, "total_emission": round(emission, 2)} for company, emission in sorted_companies]
+
+
 
 @app.get("/fetch-activity/")
 async def fetch_activity(
@@ -119,6 +141,13 @@ async def fetch_activity(
         "weekly_emission_breakdown": weekly_emission_breakdown,
         "monthly_emission_breakdown": monthly_emission_breakdown
     }
+    
+    if user_type == "company":
+        top_users = calculate_top_users(results)
+        unique_users = {r["user_id"] for r in results if "user_id" in r}
+        total_object["total_users"] = len(unique_users)
+        total_object["top_3_users"] = top_users
+        total_object["companyLeaderboard"] = generate_company_leaderboard()
 
     return {
         "data": results,
