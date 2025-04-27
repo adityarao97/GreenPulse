@@ -11,7 +11,7 @@ collection = db["notifications"]
 # Email Configuration
 email_sender = "aayushis2504@gmail.com"
 email_password = "erpn mzwa qbbo eikv"
-email_recipient = "adi97rao@gmail.com"
+email_recipient = "shravani.chandratre@gmail.com"
 
 # Initialize Yagmail SMTP
 yag = yagmail.SMTP(email_sender, email_password)

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 @RequestMapping("/api/user")
 public class UserController {
 
@@ -40,12 +41,14 @@ public class UserController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping
     public ResponseEntity<User> saveUser(@RequestBody User user) {
         User savedUser = userService.createOrUpdate(user);
         return new ResponseEntity<>(savedUser, HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/login")
     public ResponseEntity<Session> loginUser(@RequestParam String email, @RequestParam String password){
         Session session = userService.login(email, password);
