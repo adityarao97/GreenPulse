@@ -1,7 +1,7 @@
 import pandas as pd
 import math
 
-def build_defra_dict(file_path):
+def load_emission_factors(file_path):
     xls = pd.ExcelFile(file_path)
     emission_dict = {}
 
@@ -37,7 +37,7 @@ def build_defra_dict(file_path):
 
 if __name__ == "__main__":
     file_path = "defra_clean.xlsx"
-    emission_mapping = build_defra_dict(file_path)
+    emission_mapping = load_emission_factors(file_path)
 
     print("\nBuilt CLEAN emission dictionary successfully!\n")
     print(f"Total valid entries (non-NaN): {len(emission_mapping)}\n")
