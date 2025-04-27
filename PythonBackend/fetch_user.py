@@ -6,17 +6,21 @@ from datetime import datetime, timedelta
 
 app = FastAPI()
 
-# -----------------------------
-# ✅ MongoDB Connection
-# -----------------------------
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 MONGO_URI = "mongodb+srv://adityarao:3yL9mZKRLbsibLSJ@cluster0.jguago1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 client = MongoClient(MONGO_URI)
 db = client["carbon_footprint_db"]
 collection = db["activity_logs"]
 
-# -----------------------------
-# ✅ Response Schema
-# -----------------------------
 class ActivityRecord(BaseModel):
     company_id: str
     user_id: str
@@ -29,80 +33,96 @@ class ActivityRecord(BaseModel):
     sender_address: str
     timestamp: int
 
-# -----------------------------
-# ✅ Utility Functions
-# -----------------------------
 def aggregate_emissions(records):
     total_emission = sum(r["emission"] for r in records)
-
-    # Aggregate by activity type
     activity_type_agg = {}
     for r in records:
         activity_type_agg[r["activity_type"]] = activity_type_agg.get(r["activity_type"], 0) + r["emission"]
-
     return total_emission, activity_type_agg
 
-def generate_time_buckets(start_time: datetime, end_time: datetime, segments: int):
-    delta = (end_time - start_time) / segments
-    buckets = []
-    for i in range(segments):
-        buckets.append((start_time + delta * i, start_time + delta * (i + 1)))
-    return buckets
-
-def bucket_emissions(records, segments, period_days):
+def generate_date_ranges(period: str, segments: int):
     now = datetime.utcnow()
-    start_time = now - timedelta(days=period_days)
-    buckets = generate_time_buckets(start_time, now, segments)
-    emissions_per_bucket = []
+    ranges = []
 
+    if period == "daily":
+        for i in range(segments):
+            end = now - timedelta(days=i)
+            start = end - timedelta(days=1)
+            ranges.append((start.replace(hour=0, minute=0, second=0, microsecond=0),
+                           end.replace(hour=0, minute=0, second=0, microsecond=0)))
+        ranges.reverse()
+
+    elif period == "weekly":
+        current_week_start = (now - timedelta(days=now.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
+        for i in range(segments):
+            end = current_week_start - timedelta(weeks=i)
+            start = end - timedelta(weeks=1)
+            ranges.append((start, end))
+        ranges.reverse()
+
+    elif period == "monthly":
+        for i in range(segments):
+            month = (now.month - i - 1) % 12 + 1
+            year = now.year - ((now.month - i - 1) // 12)
+            start = datetime(year, month, 1)
+            if month == 12:
+                end = datetime(year + 1, 1, 1)
+            else:
+                end = datetime(year, month + 1, 1)
+            ranges.append((start, end))
+        ranges.reverse()
+
+    else:
+        raise ValueError("Invalid period")
+
+    return ranges
+
+def bucket_emissions(records, period: str, segments: int):
+    buckets = generate_date_ranges(period, segments)
+    breakdown = []
     for bucket_start, bucket_end in buckets:
         bucket_sum = sum(
             r["emission"]
             for r in records
             if bucket_start <= datetime.utcfromtimestamp(r["timestamp"]) < bucket_end
         )
-        emissions_per_bucket.append({
+        breakdown.append({
             "start": bucket_start.isoformat(),
             "end": bucket_end.isoformat(),
             "emission": round(bucket_sum, 2)
         })
+    return breakdown
 
-    return emissions_per_bucket
-
-# -----------------------------
-# ✅ GET API with Aggregation and Bucketing
-# -----------------------------
 @app.get("/fetch-activity/")
 async def fetch_activity(
-    user_type: str = Query(..., description="Employee or Company"),
-    identifier: str = Query(..., description="user_id if Employee, company_id if Company")
+    user_type: str = Query(..., description="employee or company"),
+    identifier: str = Query(..., description="user_id if employee, company_id if company")
 ):
-    if user_type not in ["Employee", "Company"]:
-        raise HTTPException(status_code=400, detail="user_type must be 'Employee' or 'Company'")
+    if user_type not in ["employee", "company"]:
+        raise HTTPException(status_code=400, detail="user_type must be 'employee' or 'company'")
 
-    query_field = "user_id" if user_type == "Employee" else "company_id"
-
+    query_field = "user_id" if user_type == "employee" else "company_id"
     results = list(collection.find({query_field: identifier}, {"_id": 0}))
 
     if not results:
         raise HTTPException(status_code=404, detail="No data found for the given query.")
 
-    # Aggregations
     total_emission, activity_type_agg = aggregate_emissions(results)
+    daily_emission_breakdown = bucket_emissions(results, period="daily", segments=6)
+    weekly_emission_breakdown = bucket_emissions(results, period="weekly", segments=6)
+    monthly_emission_breakdown = bucket_emissions(results, period="monthly", segments=6)
 
-    daily_emission_breakdown = bucket_emissions(results, segments=6, period_days=1)
-    weekly_emission_breakdown = bucket_emissions(results, segments=6, period_days=7)
-    monthly_emission_breakdown = bucket_emissions(results, segments=6, period_days=30)
+    total_object = {
+        "total_emission": round(total_emission, 2),
+        "activity_type_breakdown": {k: round(v, 2) for k, v in activity_type_agg.items()},
+        "daily_emission_breakdown": daily_emission_breakdown,
+        "weekly_emission_breakdown": weekly_emission_breakdown,
+        "monthly_emission_breakdown": monthly_emission_breakdown
+    }
 
     return {
         "data": results,
-        "total": {
-            "total_emission": round(total_emission, 2),
-            "activity_type_breakdown": {k: round(v, 2) for k, v in activity_type_agg.items()},
-            "daily_emission_breakdown": daily_emission_breakdown,
-            "weekly_emission_breakdown": weekly_emission_breakdown,
-            "monthly_emission_breakdown": monthly_emission_breakdown
-        }
+        "total": total_object
     }
 
 if __name__ == "__main__":

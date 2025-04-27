@@ -176,3 +176,32 @@ def generate_general_advice(activities_summary: str, total_emission: float) -> s
         return response.text.strip() if hasattr(response, "text") else str(response).strip()
     except Exception as e:
         return f"LLM Error while generating general advice: {str(e)}"
+
+def generate_emission_message(activity_type: str, amount: float, unit: str, emission: float) -> str:
+    prompt = f"""
+You are a friendly carbon footprint assistant.
+
+Based on this information:
+- Activity: {activity_type}
+- Amount: {amount}
+- Unit: {unit}
+- Emission: {emission} kg CO₂e
+
+Write a short natural language sentence summarizing what the user did and how much carbon they emitted.
+Make it friendly and easy to understand.
+
+Examples:
+- "Driving 20 km by car resulted in about 3.8 kg of CO₂e emissions."
+- "Eating 2 beef meals generated around 10.8 kg of CO₂e."
+- "Using 50 kWh of electricity added 20.9 kg CO₂e to your footprint."
+
+Do NOT mention activity_type keywords like 'transportation' or 'shopping' — describe it naturally.
+
+Write only the final sentence, no explanations.
+"""
+
+    try:
+        response = llm.complete(prompt)
+        return response.text.strip() if hasattr(response, "text") else str(response).strip()
+    except Exception as e:
+        return f"LLM Error while generating emission message: {str(e)}"
